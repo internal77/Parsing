@@ -19,7 +19,8 @@ rm -rf blur
 #Прямая трансляция файла на канал Ютуб
 #ffmpeg -i final.mp4 -f flv rtmp://a.rtmp.youtube.com/live2/us5w-28w9-zrqs-pvuu-es3a
 #перенос в другой каталог и переименование
-mv final.mp4 /home/internal77/Видео/Final
-cd /home/internal77/Видео/Final
+mv final.mp4 /mnt/d1b1fabd-9343-4c77-b64e-da122acf052c/Final
+cd /mnt/d1b1fabd-9343-4c77-b64e-da122acf052c/Final
 mv final.mp4 final-$(date +%d%m%y_%H%M%S).mp4
+
 #python2 $HOME/bw/.local/bin/upload.py --file="final.mp4" --title="Funny TikTok Compilation" --description="Buy my merchandise - spamlink.ly" --keywords="tiktok,cringe" --category="22" --privacyStatus="public"
