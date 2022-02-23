@@ -1,0 +1,20 @@
+Запись экрана:
+#ffmpeg -f x11grab -y -r 30 -s 1280x720 -i :0.0 -vcodec huffyuv out.avi
+#ffmpeg -f x11grab  -y -rtbufsize 100M -s 1280x720 -framerate 30 -probesize 10M -draw_mouse 1 -i :0.0 -c:v libx264 -r 30 -preset ultrafast -tune zerolatency -crf 25 -pix_fmt yuv420p  screen.mp4
+ffmpeg -f alsa -ac 2 -i pulse -f x11grab -r 30 -s 1280x720 -i :0.0 -acodec pcm_s16le -vcodec libx264 -preset ultrafast -threads 0 output.mkv
+
+
+Перевод в другой формат, с другими кодеками:
+ffmpeg -i out.avi -c:v vp9 -b:v 1000K Triangle.mp4
+
+Видеомонтаж
+ffmpeg -i Triangle.mp4 -lavfi '[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16' -vb 800K TriangleTok2.mp4
+
+Обьединение файлов из списка:
+ffmpeg -f concat -safe 0 -i list.txt -c copy final.mp4
+
+Прямая трансляция файла
+ffmpeg -i final.mp4 -f flv rtmp://a.rtmp.youtube.com/live2/us5w-28w9-zrqs-pvuu-es3a
+
+Прямая трансляция чужого потока:
+ffmpeg -i $(youtube-dl -f best --get-url https://youtu.be/5qap5aO4i9A) -f flv rtmp://a.rtmp.youtube.com/live2/us5w-28w9-zrqs-pvuu-es3a
